@@ -10,16 +10,16 @@ const data = JSON.parse(fs.readFileSync('example.json', 'utf-8'));
 app.get('/feed/example.json', (req, res) => {
   const email = req.query.email; // Henter email fra URL-spørsmålet (?email=...)
   if (!email) {
-    return res.status(400).send({ error: 'Missing email parameter' });
+    return res.status(400).send([]); // Returnerer en tom liste hvis email mangler
   }
 
   const result = data.find(user => user.email === email);
 
   if (!result) {
-    return res.status(404).send({ error: 'User not found' });
+    return res.status(404).send([]); // Returnerer en tom liste hvis ingen treff finnes
   }
 
-  res.json(result);
+  res.json([result]); // Pakk resultatet inn i en liste
 });
 
 // Start serveren
